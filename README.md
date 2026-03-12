@@ -349,3 +349,27 @@ A 120B parameter Mixture-of-Experts (MoE) model released by OpenAI. We use the m
 python utils/download_gpt_oss_120b.py
 ```
 
+---
+
+### Model: Qwen3.5-35B-A3B
+
+A 35B parameter Mixture-of-Experts vision-language model from Alibaba's Qwen team, with only 3B active parameters per token. Smaller and faster than GPT-OSS-120B, making it a good choice when serving multiple concurrent users. We use the mxfp4-quantized [GGUF version](https://huggingface.co/noctrex/Qwen3.5-35B-A3B-MXFP4_MOE-GGUF) by noctrex.
+
+- [Model card (Qwen)](https://huggingface.co/Qwen/Qwen3.5-35B-A3B)
+- [GGUF quantization (noctrex)](https://huggingface.co/noctrex/Qwen3.5-35B-A3B-MXFP4_MOE-GGUF)
+
+| Detail | Value |
+|--------|-------|
+| **Parameters** | 35B total, 3B active (Mixture-of-Experts) |
+| **Quantization** | mxfp4 (expert layers), BF16 (attention layers) |
+| **Format** | GGUF (single file) |
+| **Download size** | ~22 GB |
+| **Vision support** | Yes (with mmproj-BF16.gguf projection file) |
+| **Min system RAM** | 32 GB |
+| **Min VRAM** | ~3 GB (attention layers only, with `--n-cpu-moe`) |
+
+```bash
+# Download the GGUF model
+python utils/download_qwen35_35b.py
+```
+
