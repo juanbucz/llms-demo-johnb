@@ -1,5 +1,6 @@
 gradio
 langchain-ollama
+openai
 python-dotenv
 torch
 transformers

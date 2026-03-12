@@ -42,6 +42,15 @@ Once the container is ready you can start running the demos - no extra setup nee
 
 ---
 
+## Demos
+
+| File | What it does | Stack |
+|------|-------------|-------|
+| `src/ollama_chatbot.py` | Terminal chatbot | Ollama + LangChain |
+| `src/llamacpp_chatbot.py` | Terminal chatbot using a large MoE model | llama.cpp + OpenAI client |
+
+---
+
 ## Demo cheat sheet
 
 Quick reference for the tools and libraries used in the demos:
@@ -50,6 +59,7 @@ Quick reference for the tools and libraries used in the demos:
 2. HuggingFace Transformers
 3. LangChain
 4. Gradio
+5. llama.cpp
 
 ### 1. [Ollama](https://ollama.com/)
 
@@ -232,4 +242,84 @@ demo.launch()
 | `server_name` | `127.0.0.1` | Bind address (`0.0.0.0` for external access) |
 | `server_port` | `7860` | Port number |
 | `share` | `False` | Create a public Gradio link |
+
+---
+
+### 5. [llama.cpp](https://github.com/ggml-org/llama.cpp)
+
+High-performance C/C++ inference engine. Runs GGUF-quantized models and can split MoE layers across CPU and GPU, making it possible to serve large models (100B+) on consumer hardware.
+
+- [GitHub](https://github.com/ggml-org/llama.cpp)
+- [GGUF model format](https://huggingface.co/docs/hub/gguf)
+- [Server documentation](https://github.com/ggml-org/llama.cpp/blob/master/examples/server/README.md)
+
+```bash
+# Build from source with CUDA support
+git clone https://github.com/ggml-org/llama.cpp.git
+cd llama.cpp
+cmake -B build -DGGML_CUDA=ON
+cmake --build build --config Release -j
+```
+
+```bash
+# Start the server with CPU/GPU MoE split
+./build/bin/llama-server \
+    -m model.gguf \
+    --n-gpu-layers 999 \
+    --n-cpu-moe 36 \
+    -c 0 -fa \
+    --jinja --reasoning-format none \
+    --host 0.0.0.0 --port 8502 --api-key "$LLAMA_API_KEY"
+```
+
+The server exposes an **OpenAI-compatible API**, so any OpenAI client library can connect to it.
+
+```python
+from openai import OpenAI
+
+client = OpenAI(
+    base_url='http://localhost:8502/v1',
+    api_key='your-api-key',
+)
+
+response = client.chat.completions.create(
+    model='model-name',
+    messages=[
+        {'role': 'system', 'content': 'You are a helpful assistant.'},
+        {'role': 'user', 'content': 'Hello!'},
+    ],
+    temperature=0.7,
+)
+
+print(response.choices[0].message.content)
+```
+
+### Key server flags
+
+| Flag | Purpose |
+|------|----------|
+| `-m` | Path to the GGUF model file |
+| `--n-gpu-layers` | Number of layers to offload to GPU (`999` = all non-MoE layers) |
+| `--n-cpu-moe` | Number of MoE blocks to keep on CPU (e.g. `36` = all MoE on CPU) |
+| `-c` | Context length (`0` = model maximum) |
+| `-fa` | Enable flash attention |
+| `--host` / `--port` | Server bind address and port |
+| `--api-key` | API key for authenticating requests |
+
+### CPU/GPU MoE split explained
+
+Mixture-of-Experts models have two types of layers: **attention layers** (small, benefit from GPU) and **MoE/expert layers** (large, run well on CPU). The `--n-cpu-moe` flag controls how many MoE blocks stay on CPU:
+
+| Config | VRAM usage | Generation speed |
+|--------|-----------|------------------|
+| `--n-cpu-moe 36` (all MoE on CPU) | ~5–8 GB | ~18–25 tok/s |
+| `--n-cpu-moe 28` (8 MoE on GPU) | ~22 GB | ~25–31 tok/s |
+
+This makes it possible to run a 120B parameter model with as little as 8 GB of VRAM and 64 GB of system RAM.
+
+### Environment variables
+
+| Variable | Purpose |
+|----------|----------|
+| `LLAMA_API_KEY` | API key for llama-server authentication |
 
