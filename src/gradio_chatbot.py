@@ -49,14 +49,11 @@ else:
 llamacpp_client = OpenAI(
     base_url=llamacpp_base_url,
     api_key=llamacpp_api_key,
+    timeout=120.0,  # 120 second timeout for inference requests
 )
 
-# Try to get the model name from the server (gracefully fail if unavailable)
-try:
-    models = llamacpp_client.models.list()
-    llamacpp_model = models.data[0].id
-except:
-    llamacpp_model = 'llama.cpp (server not available)'
+# Use a default model name (actual model is determined by server configuration)
+llamacpp_model = 'gpt-oss-20b'
 
 
 def respond(message, history, system_prompt):
