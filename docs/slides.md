@@ -57,3 +57,15 @@ Advanced techniques for complex tasks and improving model outputs.
 - Prompt optimization strategies
 
 **Location:** `slides/lesson_47_advanced_prompting.md`
+
+## Lesson 48: LangChain basics
+
+Introduction to building structured LLM applications with LangChain.
+
+**Topics covered:**
+- Chat models and LLM wrappers
+- Chat prompt templates and structured prompts
+- Output parsers (string, JSON, Pydantic)
+- Basic chains and composition with LCEL
+
+**Location:** `slides/lesson_48_langchain_basics.md`

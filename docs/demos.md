@@ -1,6 +1,6 @@
 # Demos
 
-This repository includes five chatbot demos that demonstrate different approaches to local LLM inference. Each demo covers specific concepts and tools.
+This repository includes six chatbot demos that demonstrate different approaches to local LLM inference. Each demo covers specific concepts and tools.
 
 ## Demo 1: HuggingFace chatbot
 
@@ -207,3 +207,58 @@ python src/react_agent_chatbot_manual.py
 - See the Thought → Action → Observation loop in action
 - Try asking multi-step questions that require multiple tool calls
 - **Compare both versions**: Run the same question through both demos to see how the manual implementation exposes the mechanics that LangChain handles automatically
+
+## Demo 6: LangChain basics
+
+**File:** `src/langchain_demo.py`
+
+**Concepts covered:**
+- Chat models and LLM wrappers
+- Prompt templates with variable substitution
+- Structured output parsing with Pydantic schemas
+- Basic chains and composition with LCEL
+- Few-shot learning patterns
+
+**Tools used:**
+- [LangChain](libraries.md) - Core framework components
+- [Ollama](inference_servers.md) or [llama.cpp](inference_servers.md) - Backend LLM
+- [Gradio](libraries.md) - Interactive web interface
+
+**Running the demo:**
+
+```bash
+# 1. Start the Ollama server in a terminal
+ollama serve
+
+# 2. Pull a model (in another terminal)
+ollama pull qwen2.5:3b
+
+# 3. Run the LangChain demo
+python src/langchain_demo.py
+
+# 4. Open the URL shown in the terminal (usually http://127.0.0.1:7860)
+```
+
+**Four interactive examples:**
+
+1. **Simple chain**: Prompt template → LLM → String output
+   - Try: "machine learning", "photosynthesis", "blockchain"
+
+2. **Sentiment analysis**: Structured JSON output with Pydantic schema
+   - Try: Product reviews, comments, social media posts
+   - See how the parser extracts sentiment, confidence, and key phrases
+
+3. **Entity extraction**: Different schemas for different entity types
+   - Person: name, age, occupation, location
+   - Recipe: name, cuisine, ingredients, difficulty
+   - Switch schemas to see how the same chain extracts different information
+
+4. **Few-shot learning**: Style classification with examples
+   - The model learns from 4 in-prompt examples
+   - Try: Technical, casual, formal, or creative writing styles
+
+**What to observe:**
+- **Reusability**: Same chain works for multiple inputs
+- **Type safety**: Pydantic schemas ensure structured outputs
+- **Composability**: Chains combine prompt, model, and parser seamlessly
+- **Format instructions**: See how Pydantic schemas generate parsing guidance
