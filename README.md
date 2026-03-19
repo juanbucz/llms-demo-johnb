@@ -28,23 +28,26 @@ This repository provides hands-on examples and learning resources for working wi
 
 ### Resources included
 
-**Demos** (5 chatbot implementations):
+**Demos** (6 chatbot implementations):
 - Terminal chatbot with Ollama + LangChain
 - Terminal chatbot with llama.cpp + OpenAI client
 - Web UI chatbot with Gradio (multi-backend)
 - Direct model loading with HuggingFace Transformers
 - ReAct agent with tool use (2 versions: built-in framework + manual implementation)
+- LangChain basics (prompt templates, output parsers, chains)
 
-**Slides** (4 lessons):
+**Slides** (5 lessons):
 - State of the art in generative AI
 - LLM deployment strategies
 - Prompting fundamentals
 - Advanced prompting techniques
+- LangChain basics and structured applications
 
-**Activities** (3 hands-on exercises):
+**Activities** (4 hands-on exercises):
 - Word problems with chain-of-thought reasoning
 - Text summarization with document chunking
 - Extending the ReAct agent with custom tools
+- Building LangChain chains with structured outputs
 
 **Models** (3 open-source LLMs):
 - GPT-OSS-120B (120B MoE, reasoning-optimized)

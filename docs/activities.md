@@ -72,3 +72,30 @@ Enhance the ReAct agent chatbot by adding custom tools and testing multi-step re
 
 **Location:** `activities/activity_3_react_agent_tools.md`
 
+## Activity 4: Building LangChain chains
+
+Build practical LangChain applications using prompt templates, output parsers, and chains.
+
+**Duration:** 60-75 minutes
+
+**Skills practiced:**
+- Creating reusable prompt templates with variables
+- Structured data extraction with Pydantic schemas
+- JSON parsing with JsonOutputParser
+- Composing multi-step chains
+- Error handling and debugging chains
+
+**Prerequisites:**
+- Completed Activities 1-3
+- Python programming experience
+- Understanding of Lesson 48 (LangChain basics)
+- Familiarity with Demo 6 (LangChain demo)
+
+**What you'll do:**
+- Build a template-based translator chain
+- Create a structured book information extractor
+- Compose a multi-step review analysis pipeline
+- Learn debugging and best practices
+
+**Location:** `activities/activity_4_langchain_chains.md`
+
