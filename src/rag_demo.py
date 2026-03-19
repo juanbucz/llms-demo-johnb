@@ -301,7 +301,7 @@ with gr.Blocks(title="RAG Knowledge System") as demo:
             with gr.Row():
                 backend_selector = gr.Radio(
                     choices=["Ollama", "llama.cpp"],
-                    value="Ollama",
+                    value="llama.cpp",
                     label="Model backend",
                     info=f"Ollama: {ollama_model} | llama.cpp: {llamacpp_model} @ {llamacpp_base_url}",
                 )
