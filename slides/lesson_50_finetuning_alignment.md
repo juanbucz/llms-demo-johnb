@@ -185,9 +185,9 @@ Famous instruction-tuning datasets: **Alpaca** (52k examples), **FLAN** (1,800+ 
 
 ---
 
-## LoRA: How training works
+## LoRA: how training works
 
-**Step 1 - Freeze the base model.** All original weights W are locked — no gradients flow through them.
+**Step 1 - Freeze the base model.** All original weights W are locked - no gradients flow through them.
 
 **Step 2 - Inject adapter pairs.** For each target layer (usually the attention projection matrices), add two small trainable matrices A and B initialized so B·A = 0 at the start of training.
 
@@ -235,7 +235,7 @@ The bottleneck rank `r` forces adaptation through a low-dimensional subspace - t
 
 ---
 
-## QLoRA: Quantization + LoRA
+## QLoRA: quantization + LoRA
 
 **QLoRA** (Dettmers et al., 2023) combines LoRA with 4-bit quantization of the base model.
 
@@ -343,7 +343,7 @@ This is how **InstructGPT** (the model behind early ChatGPT) was built - describ
 
 ---
 
-## Stage 1: Supervised fine-tuning (SFT)
+## Stage 1: supervised fine-tuning (SFT)
 
 **Goal:** Give the base model a foundation in instruction-following before RL training.
 
@@ -360,7 +360,7 @@ This is how **InstructGPT** (the model behind early ChatGPT) was built - describ
 
 ---
 
-## Stage 2: Reward model
+## Stage 2: reward model
 
 **Goal:** Learn a function that scores responses by how much humans prefer them.
 
@@ -385,7 +385,7 @@ The reward model is itself an LLM with a scalar output head - it outputs a singl
 **Goal:** Train the policy (the LLM that talks to users) to maximize the reward model's score.
 
 - Generate responses, score with the reward model, update weights to increase the score
-- A **KL divergence penalty** keeps the policy close to the SFT model, preventing "reward hacking" — finding responses that fool the reward model without being genuinely good
+- A **KL divergence penalty** keeps the policy close to the SFT model, preventing "reward hacking" - finding responses that fool the reward model without being genuinely good
 
 ```
 Objective = E[RM(response)] - β × KL(policy || SFT_model)
